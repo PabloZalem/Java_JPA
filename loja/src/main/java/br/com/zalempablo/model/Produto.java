@@ -7,6 +7,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "produtos")
+@NamedQuery(name = "buscarPorNomeDaCategoria",
+        query = "SELECT p FROM Produto p WHERE p.categoria.nome = :nome")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Produto {
 
         @Id
@@ -17,7 +20,7 @@ public class Produto {
         private BigDecimal preco;
         private LocalDate dataCadastro = LocalDate.now();
 
-        @ManyToOne
+        @ManyToOne(fetch = FetchType.LAZY)
         private Categoria categoria;
 
     public Produto() {
